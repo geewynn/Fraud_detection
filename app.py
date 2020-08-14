@@ -11,23 +11,14 @@ def predict(model, input_df):
     return predictions
 
 def run():
-
-#     add_selectbox = st.sidebar.selectbox(
-#     "How would you like to predict?",
-#     ("Online"))
-
-    st.sidebar.info('This app is created to predict patient hospital charges')
-   
+    
+    st.sidebar.info('This app is created to predict fraud values in web channels')
 
     st.title("Fraud Volume Prediction App")
 
-    #if add_selectbox == 'Online':add_selectbox = st.sidebar.selectbox(
-    # "How would you like to predict?",
-    # ("Online",))
-
     Year = st.number_input('Year', min_value=1, max_value=3000, value=2013)
     Channel = st.selectbox('Channel', ['ATM', 'Internet Banking', 'Mobile', 'POS', 'Web', 'eCommerce' ])
-    Value = st.number_input('Value', min_value=10, max_value=999999999999, value=25600750)
+    Value = st.number_input('Value', min_value=10, max_value=999999999999, value=20659546)
 
     output=""
 
@@ -39,7 +30,6 @@ def run():
         output = '$' + str(output)
 
     st.success('The predicted fraud value is {}'.format(output))
-
 
 if __name__ == '__main__':
     run()
