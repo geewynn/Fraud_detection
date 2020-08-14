@@ -31,9 +31,9 @@ def run():
 
     if add_selectbox == 'Online':
 
-        Year = st.number_input('Year', min_value=1, max_value=3000, value=25)
+        Year = st.number_input('Year', min_value=1, max_value=3000, value=2013)
         Channel = st.selectbox('Channel', ['ATM', 'Internet Banking', 'Mobile', 'POS', 'Web', 'eCommerce' ])
-        Value = st.number_input('Value', min_value=10, max_value=999999999999, value=10)
+        Value = st.number_input('Value', min_value=10, max_value=999999999999, value=25600750)
 
         output=""
 
