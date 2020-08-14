@@ -12,20 +12,12 @@ def predict(model, input_df):
 
 def run():
 
-    #from PIL import Image
-    #image = Image.open('logo.png')
-    #image_hospital = Image.open('hospital.jpg')
-
-    #st.image(image,use_column_width=False)
-
     add_selectbox = st.sidebar.selectbox(
     "How would you like to predict?",
-    ("Online", "Batch"))
+    ("Online"))
 
     st.sidebar.info('This app is created to predict patient hospital charges')
-    st.sidebar.success('https://www.pycaret.org')
-    
-    #st.sidebar.image(image_hospital)
+   
 
     st.title("Fraud Volume Prediction App")
 
@@ -44,16 +36,8 @@ def run():
             output = predict(model=model, input_df=input_df)
             output = '$' + str(output)
 
-        st.success('The output is {}'.format(output))
+        st.success('The predicted fraud value is {}'.format(output))
 
-    if add_selectbox == 'Batch':
-
-        file_upload = st.file_uploader("Upload csv file for predictions", type=["csv"])
-
-        if file_upload is not None:
-            data = pd.read_csv(file_upload)
-            predictions = predict_model(estimator=model,data=data)
-            st.write(predictions)
 
 if __name__ == '__main__':
     run()
