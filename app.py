@@ -22,7 +22,7 @@ def run():
 
     output=""
 
-    input_dict = {'Year' : Year, 'Channel' : Channel, 'Fraud Value' : Value}
+    input_dict = {'Year' : Year, 'Channel' : Channel, 'Value' : Value}
     input_df = pd.DataFrame([input_dict])
 
     if st.button("Predict"):
