@@ -22,14 +22,14 @@ def run():
 
     output=""
 
-    input_dict = {'Year' : Year, 'Channel' : Channel, 'Value' : Value}
+    input_dict = {'Year' : Year, 'Channel' : Channel, 'Fraud Value' : Value}
     input_df = pd.DataFrame([input_dict])
 
     if st.button("Predict"):
         output = predict(model=model, input_df=input_df)
         output = '$' + str(output)
 
-    st.success('The predicted fraud value is {}'.format(output))
+    st.success('The predicted fraud volume is {}'.format(output))
 
 if __name__ == '__main__':
     run()
