@@ -33,7 +33,7 @@ def run():
     st.success('The forcasted fraud volume is {}'.format(output))
 
     # read data
-    data = pd.read_csv('/home/godwin/Fraud_detection/fraud data - Sheet1.csv')
+    data = pd.read_csv('fraud data - Sheet1.csv')
     data['Value'] = data['Value'].str.replace(',', '').astype(float)
     data['Volume'] = data['Volume'].str.replace(',', '').astype(float)
 
