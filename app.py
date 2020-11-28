@@ -1,15 +1,12 @@
-from pycaret.regression import load_model, predict_model
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
+from sklearn.preprocessing import LabelEncoder
 
-model = load_model('deployment_1')
+model = pickle.load(open('reg.pkl','rb'))
 
-def predict(model, input_df):
-    predictions_df = predict_model(estimator=model, data=input_df)
-    predictions = predictions_df['Label'][0]
-    return predictions
 
 def run():
     
@@ -25,10 +22,13 @@ def run():
 
     input_dict = {'Year' : Year, 'Channel' : Channel, 'Value' : Value}
     input_df = pd.DataFrame([input_dict])
+    le = LabelEncoder()
+    input_df['Channel'] = le.fit_transform(input_df['Channel'])
 
     if st.button("Forecast"):
-        output = predict(model=model, input_df=input_df)
-        output = '$' + str(output)
+        inputs=np.array(input_df)
+        prediction = model.predict(inputs)
+        output = '$' + str(prediction)
 
     st.success('The forcasted fraud volume is {}'.format(output))
 
