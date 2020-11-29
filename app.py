@@ -29,8 +29,10 @@ def run():
         inputs=np.array(input_df)
         prediction = model.predict(inputs)
         output = '$' + str(prediction)
+
+        st.success('The forcasted fraud volume is {}'.format(output))
         # read data
-        data = pd.read_csv('fraud_data_sheet.csv')
+        data = pd.read_csv('fraud_sheet.csv')
         data['Value'] = data['Value'].str.replace(',', '').astype(float)
         data['Volume'] = data['Volume'].str.replace(',', '').astype(float)
         data = data[data['Year'] == Year]
@@ -38,8 +40,6 @@ def run():
         ax1.pie(data['Value'], labels=data['Channel'], autopct='%1.1f%%', startangle=90)
         ax1.axis('equal')  
         st.pyplot()
-
-        st.success('The forcasted fraud volume is {}'.format(output))
 
         st.subheader('Recommendations and Implementation')
         st.table(pd.DataFrame({
