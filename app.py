@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder
 
 model = pickle.load(open('reg.pkl','rb'))
 
@@ -25,10 +25,12 @@ def run():
     le = LabelEncoder()
     input_df['Channel'] = le.fit_transform(input_df['Channel'])
 
+
     if st.button("Forecast"):
         inputs=np.array(input_df)
         prediction = model.predict(inputs)
-        output = '$' + str(prediction)
+        prediction = np.round(prediction)
+        output = '#' + str(prediction)
 
         st.success('The forcasted fraud volume is {}'.format(output))
         # read data
@@ -43,33 +45,44 @@ def run():
 
         st.subheader('Recommendations and Implementation')
         st.table(pd.DataFrame({
-            'Target':['User', 'User','User','User','User', 'Service Provider', 'Service Provider', 'Service Provider', 'Service Provider'],
+            'Object':['Customer', 'Customer/Organisation', 'Customer', 'Organisation', 'Organisation', 'Organisation'],
 
-            'Vulnerability': ['Over the Air (OTA) transmission between phone and Point of Sale(POS) (NFC reader)',
-                            'Inadvertent installation of malicious software on a mobile phone by the user',
-                        'Absence of two- factor authentication ', 'Changing or replacing the mobile phone', 'Smartphone internet and geolocation capabilities','POS system accepts OTA transmissions',
-                        'POS devices are installed at merchant premises', 'Lack of Digital Rights Management (DRM) on the mobile device', 'Weakness of Global System for mobile communication(GSM) encryption for OTA transmission; SMS data in clear text on mobile network'],
+            'Susceptible Channel': ['Point of Sale(POS)',
+                            'Ecommerce Internet banking Web payment',
+                        'Ecommerce Internet banking POS Web payment', 
+                        'POS', 
+                        'ATM',
+                        'Ecommerce Internet banking POS Web payment'],
             
-            'Threat': ['Interception of Traffic', 'Downloaded applications intercept of authentication data',
-                    'User masquerading', 'Configuration and setup complecity', 'Malware on the mobile device; poor data protection controls at merchant/payment processor', 'Malicious party floods POS system with meaningless requests',
-                    'Masquerade attacks; tampering with POS', 'Mobile device user illegally distributes content; e.g ringtone, video, games, etc', 'Message modification, a replay of transactions, evasion of fraud controls'],
-            
-            'Risk': ['Identity theft, Information disclosure, replay attacks', 'fraudulent transactions, procider liabilities', 'fraudulent transactions, procider liabilities',
-                    'Reduced adoption of the technology, "security by obscurity"','Data disclosure and privacy infringement; profiling of user behaviour','Denial of Service (DoS)',
-                    'Theft of service, replay, message modification', 'Theft of content, Digital piracy, a risk to the provider for digital rights infringement, loss of revenue to the content provider of merchant',
-                    'Theft of Service or content, loss of revenue, illegal transfer of funds'],
-            
-            'Proposed Action': ['Trusted Platform Module(TPM), secure protocols, encryption', 'Authentication of both user (PIN) and application ( digital signature by trusted third-party), TPM', 'Two-Factor authentication',
-                    'A simplified user interface, security parameters in TPM set by a trusted party', 'User control of geolocation features, cryptographically supported privacy, trusted platform module,vetted authorization and accounting',
-                    'Request filtering at reader based on mobile device0- reader relative geometry', 'POS vendor vetting, message authenticators, vetted authorization and accounting', 'Trusted Platform Module (TPM) design, cryptographically supported DRM',
-                    'Strong Cryptographic protocols, SMS message authenticators, encryption']
+            'Threat': ['Interference with transmitted data which may lead to theft of identity and or card details', 
+                    'Malware on customers device affect payment verification leading to sham transactions such as charge back and double charge scam',
+                    'Poor cyber hygiene from the Organisations end can result in data been exposed and breach of privacy ', 
+                    'POS receiving several irrelevant  requests leading to a potential denial of service', 
+                    'Physical security(ATM break-in) Insert Skimmers(Placed in card slots to capture card information)',
+                    'fraud control evasion, Fraudulent transfer of funds'],
+           
+            'Proposed Action': ['Decision makers should use platforms with secure protocols and encryption.', 
+                    'Decision makers should implement several levels of authentication for  every customer', 
+                    'Decision makers should implement good cyber hygiene such as ensuring all applications are updated when required. Implement multi factor authentication and ensure good cyber security policies',
+                    'Decision makers should implement POS encryption Ensure the most recent version of the application and operating system is running Ensure regular audit of security system',
+                    'Decision makers should there are security personnel, cctv etc to physically protect ATMs Routine checks should be made by experts of each organization to avoid skimmers',
+                    'Decision makers should ensure robust cryptography protocol, encryption and several levels of authentication']
             
         }))
         st.subheader('Projection')
         st.write('1. If decision makers do not address fears related to online payment, customers will be discouraged from making online transaction with these businesses. This may reduce revenue and eventually lead to business shut down.')
 
-        st.write('2. “Protecting websites against hackers will minimize customers’ fears of e-payment which can increases revenue and business growth.”')
-        st.markdown('If decision makers allow their business site to be vulnerable to hackers it discourages customers from making transaction on their sites which may reduce revenue and eventually lead to business shut down.')
+        st.write('2. “Protecting websites against hackers will minimize customers’ fears of e-payment which can increases revenue and business growth.” If decision makers allow their business site to be vulnerable to hackers it discourages customers from making transaction on their sites which may reduce revenue and eventually lead to business shut down.')
+
+st.subheader('Revenue Projection')
+Current_Revenue = st.number_input('Current Revenue', min_value=1, max_value=999999999999)
+Previous_Revenue = st.number_input('Previous Revenue', min_value=10, max_value=999999999999)
+
+
+if st.button("revenue increase"):
+    increase= ((Current_Revenue - Previous_Revenue)/Previous_Revenue) * 100
+    st.success('The projected revenue is {}'.format(increase))
+
 
 if __name__ == '__main__':
     run()
