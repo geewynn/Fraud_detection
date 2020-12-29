@@ -81,7 +81,7 @@ Previous_Revenue = st.number_input('Previous Revenue', min_value=10, max_value=9
 
 if st.button("revenue increase"):
     increase= ((Current_Revenue - Previous_Revenue)/Previous_Revenue) * 100
-    st.success('The projected revenue is {}'.format(increase))
+    st.success('The projected revenue is {}%'.format(increase))
 
 
 if __name__ == '__main__':
